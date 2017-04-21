@@ -11,7 +11,7 @@ public class Eratosthenes {
         for(int i = 2;i!=n;i++){        //Sieb des Erathosthenes
             if(isPrime(i)){
                 count++;
-                for(int t = 2*i;t<n;t=t+i)
+                for(int t = 2*i;t<n;t=t+i)  //Vielfache von i als nicht Primzahl makieren
                     clearPrimeFlag(t);
             }
         }
