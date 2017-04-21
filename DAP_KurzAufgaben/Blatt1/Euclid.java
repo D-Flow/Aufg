@@ -21,7 +21,7 @@ public class Euclid {
         }
         System.out.println("GGT ist : "+euclid(a,b));
     }
-
+    //Siehe Aufgabe; Euklidischer Algoritmus mit a = q*b + r ....
     public static int euclid(int a,int b){
         if(b==0)
             return a;
