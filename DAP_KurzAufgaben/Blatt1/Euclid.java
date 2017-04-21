@@ -3,7 +3,23 @@
  */
 public class Euclid {
     public static void main(String...args){
-
+        int a,b=0;
+        if(args==null||args.length!=2){
+            System.out.println("Fehler: Zwei Positive Zahlen erwartet!");
+            return;
+        }
+        try{
+            a=Integer.parseInt(args[0]);
+            b=Integer.parseInt(args[1]);
+            if(a<=0||b<=0){
+                System.out.println("Fehler: Positive Zahlen erwartet!");
+                return;
+            }
+        }catch (Exception e){
+            System.out.println("Fehler: Min. ein Parameter ist keine Natürliche Zahl!");
+            return;
+        }
+        System.out.println("GGT ist : "+euclid(a,b));
     }
 
     public static int euclid(int a,int b){
