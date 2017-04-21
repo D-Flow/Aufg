@@ -4,13 +4,16 @@
 public class Euclid {
     public static void main(String...args){
         int a,b=0;
+        //Überprüfung der Parameter anzahl
         if(args==null||args.length!=2){
             System.out.println("Fehler: Zwei Positive Zahlen erwartet!");
             return;
         }
         try{
+            //Versuche ersten beiden Parameter in Zahlen zu casten
             a=Integer.parseInt(args[0]);
             b=Integer.parseInt(args[1]);
+            //Siehe Aufg. a,b müssen Natürliche Zahlen sein
             if(a<=0||b<=0){
                 System.out.println("Fehler: Positive Zahlen erwartet!");
                 return;
@@ -19,6 +22,7 @@ public class Euclid {
             System.out.println("Fehler: Min. ein Parameter ist keine Natürliche Zahl!");
             return;
         }
+
         System.out.println("GGT ist : "+euclid(a,b));
     }
     //Siehe Aufgabe; Euklidischer Algoritmus mit a = q*b + r ....
