@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 
 /**
- *  Aufgabe 1&2
+ * Aufgabe 1&2
  */
 public class Sortierung {
     private static Map<String, Consumer<int[]>> algMap = new HashMap<>();
@@ -55,20 +55,33 @@ public class Sortierung {
             return;
         }
 
-        algMap.get(sortType).accept(fillMap.get(fillType).apply(n));
+        int[] array = fillMap.get(fillType).apply(n);
+        long start = System.currentTimeMillis();
+        algMap.get(sortType).accept(array);
+        long end = System.currentTimeMillis();
+        if (!isSorted(array))
+            System.out.println("Feld ist NICHT sortiert!");
+        else
+            System.out.println("Feld ist Sortiert! Sortierung in : " + (end - start) + "ms abgeschlossen!");
+
+        System.out.println();
+        if (n <= 100)
+            for (int i = 0; i < array.length; i++)
+                System.out.print(array[i] + " ");
+        System.out.println();
     }
 
     public static void insertionSort(int[] array) {
         for (int i = 1; i < array.length; i++) {
-            int key=array[i];
-            int j=i-1;
-            assert isPartialSorted(array,0,j);
-            while (j>=0&&array[j] > key) {
-                array[j+1]=array[j];    // move array[j] to array[j+1]
+            int key = array[i];
+            int j = i - 1;
+            assert isPartialSorted(array, 0, j);
+            while (j >= 0 && array[j] > key) {
+                array[j + 1] = array[j];    // move array[j] to array[j+1]
                 j--;
             }
             // array[j]<= key
-            array[j+1]=key;
+            array[j + 1] = key;
         }
         assert isSorted(array);
     }
@@ -83,7 +96,7 @@ public class Sortierung {
 
     private static boolean isPartialSorted(int[] arr, int start, int end) {
         for (int i = start; i < end - 1; i++)
-            if(arr[i]>arr[i+1])
+            if (arr[i] > arr[i + 1])
                 return false;
         return true;
     }
@@ -147,20 +160,20 @@ public class Sortierung {
     }
 
     public static void mergeSort(int[] array, int[] tempArray, int left, int right) {
-        if(left>=right)
+        if (left >= right)
             return;
-        int q = (right+left)/2;
-        mergeSort(array,tempArray,left,q);
-        mergeSort(array,tempArray,q+1,right);
-        assert isPartialSorted(array,left,q);   // linke hälfte ist sortiert
-        assert isPartialSorted(array,q+1,right);    // rechte hälfte ist sortiert
+        int q = (right + left) / 2;
+        mergeSort(array, tempArray, left, q);
+        mergeSort(array, tempArray, q + 1, right);
+        assert isPartialSorted(array, left, q);   // linke hälfte ist sortiert
+        assert isPartialSorted(array, q + 1, right);    // rechte hälfte ist sortiert
         merge(array, tempArray, left, q, right);    //assert passiert im aufrufendem call! auf left bis right
     }
 
     public static void mergeSort(int[] array) {
         int[] tmpArray = new int[array.length];
         // right ist inklusive nach Zusatzblatt2
-        mergeSort(array, tmpArray, 0, array.length-1);
+        mergeSort(array, tmpArray, 0, array.length - 1);
         assert isSorted(array);
     }
 }
