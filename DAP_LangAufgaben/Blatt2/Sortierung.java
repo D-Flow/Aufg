@@ -20,7 +20,6 @@ public class Sortierung {
         fillMap.put("auf", (n) -> fillIncreasing(n));
         fillMap.put("ab", (n) -> fillDecreasing(n));
     }
-
     public static void main(String... args) {
         int n;
         String sortType = "merge", fillType = "rand";
@@ -64,13 +63,16 @@ public class Sortierung {
             System.out.println("Feld ist NICHT sortiert!");
         else
             System.out.println("Feld ist Sortiert! Sortierung in : " + (end - start) + "ms abgeschlossen!");
-
-        System.out.println();
         if (n <= 100)
-            for (int i = 0; i < array.length; i++)
-                System.out.print(array[i] + " ");
-        System.out.println();
+            showArray(array);
+    }
 
+    public static void showArray(int[] array) {
+        //Array ausgeben
+        System.out.println();
+        for (int i = 0; i < array.length; i++)
+            System.out.print(array[i] + " ");
+        System.out.println();
     }
 
     public static void insertionSort(int[] array) {
