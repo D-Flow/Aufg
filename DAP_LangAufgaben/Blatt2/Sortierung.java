@@ -1,16 +1,65 @@
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 
 /**
- *
+ *  Aufgabe 1&2
  */
 public class Sortierung {
+    private static Map<String, Consumer<int[]>> algMap = new HashMap<>();
+    private static Map<String, Function<Integer, int[]>> fillMap = new HashMap<>();
+
+    static {
+        algMap.put("merge", (arr) -> mergeSort(arr));
+        algMap.put("insert", (arr) -> insertionSort(arr));
+        fillMap.put("rand", (n) -> fillRandom(n));
+        fillMap.put("auf", (n) -> fillIncreasing(n));
+        fillMap.put("ab", (n) -> fillDecreasing(n));
+    }
+
     public static void main(String... args) {
-        mergeSort(fillRandom(1000));
+
+        int n;
+        String sortType = "merge";
+        String fillType = "rand";
+
+        if (args == null || !(args.length == 1 || args.length == 3)) {
+            System.out.println("Parameter anzahl inkorrekt!");
+            System.out.println("Nutze 'Sortierung n' mit n Natürliche Zahl um ein Zufälliges Array mit Mergesort zu sortieren!");
+            System.out.println("Nutze 'Sorterung n merge|insert rand|auf|ab'");
+            return; //ERROR
+        }
+        try {
+            n = Integer.parseInt(args[0]);
+            if (n <= 0)
+                throw new IllegalStateException();
+            if (args.length > 1) {
+                sortType = args[1];
+                fillType = args[2];
+            }
+        } catch (Exception e) {
+            System.out.println("Erster Parameter ist keine Natürliche Zahl!");
+            return;
+        }
+
+
+        if (!algMap.containsKey(sortType)) {
+            System.out.println("Sortierung : " + sortType + " wurde nicht gefunden! Nutze  merge|insert ");
+            return;
+        }
+        if (!fillMap.containsKey(fillType)) {
+            System.out.println("Füllart : " + fillType + " wurde nicht gefunden! Nutze rand|auf|ab ");
+            return;
+        }
+
+        algMap.get(sortType).accept(fillMap.get(fillType).apply(n));
     }
 
     public static void insertionSort(int[] array) {
-        for(int i = 1;i<array.length;i++){
+        for (int i = 1; i < array.length; i++) {
             int key=array[i];
             int j=i-1;
             assert isPartialSorted(array,0,j);
@@ -31,8 +80,9 @@ public class Sortierung {
                 return false;
         return true;
     }
-    private static boolean isPartialSorted(int[] arr,int start,int end){
-        for(int i = start;i<end-1;i++)
+
+    private static boolean isPartialSorted(int[] arr, int start, int end) {
+        for (int i = start; i < end - 1; i++)
             if(arr[i]>arr[i+1])
                 return false;
         return true;
@@ -95,7 +145,8 @@ public class Sortierung {
             assert isPartialSorted(array, left, currentI);
         }
     }
-    public static void mergeSort(int[] array,int[] tempArray,int left,int right){
+
+    public static void mergeSort(int[] array, int[] tempArray, int left, int right) {
         if(left>=right)
             return;
         int q = (right+left)/2;
