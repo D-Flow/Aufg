@@ -13,6 +13,7 @@ public class Sortierung {
     private static Map<String, Function<Integer, int[]>> fillMap = new HashMap<>();
 
     static {
+        //Initialisierung der Abbildungen
         algMap.put("merge", (arr) -> mergeSort(arr));
         algMap.put("insert", (arr) -> insertionSort(arr));
         fillMap.put("rand", (n) -> fillRandom(n));
@@ -21,44 +22,44 @@ public class Sortierung {
     }
 
     public static void main(String... args) {
-
         int n;
-        String sortType = "merge";
-        String fillType = "rand";
+        String sortType = "merge", fillType = "rand";
 
         if (args == null || !(args.length == 1 || args.length == 3)) {
             System.out.println("Parameter anzahl inkorrekt!");
-            System.out.println("Nutze 'Sortierung n' mit n Natürliche Zahl um ein Zufälliges Array mit Mergesort zu sortieren!");
-            System.out.println("Nutze 'Sorterung n merge|insert rand|auf|ab'");
-            return; //ERROR
+            System.out.println("Nutze 'Sortierung n' mit n Natürliche Zahl um ein Zufälliges Array mit Mergesort zu sortieren.");
+            System.out.println("Nutze 'Sorterung n merge|insert rand|auf|ab' für bestimmtes Sortieren.");
+            return; //ERROR Aufruf hat falsche Form
         }
         try {
             n = Integer.parseInt(args[0]);
             if (n <= 0)
                 throw new IllegalStateException();
-            if (args.length > 1) {
-                sortType = args[1];
-                fillType = args[2];
-            }
+            // n ist nun valid
         } catch (Exception e) {
             System.out.println("Erster Parameter ist keine Natürliche Zahl!");
             return;
         }
-
-
-        if (!algMap.containsKey(sortType)) {
+        if (args.length > 1) {  //fülltyp und sortierverfahren aus Parameter entnehmen
+            sortType = args[1];
+            fillType = args[2];
+        }
+        // sortType,fillType nun valid
+        if (!algMap.containsKey(sortType)) {    //Prüfen ob das sortierverfahren vorhanden ist
             System.out.println("Sortierung : " + sortType + " wurde nicht gefunden! Nutze  merge|insert ");
             return;
         }
-        if (!fillMap.containsKey(fillType)) {
+        if (!fillMap.containsKey(fillType)) {   //analog
             System.out.println("Füllart : " + fillType + " wurde nicht gefunden! Nutze rand|auf|ab ");
             return;
         }
+        // füllmethode und algorithmus existieren
 
-        int[] array = fillMap.get(fillType).apply(n);
+        int[] array = fillMap.get(fillType).apply(n);   //füllverfahren auswählen und mit n aufrufen
         long start = System.currentTimeMillis();
-        algMap.get(sortType).accept(array);
+        algMap.get(sortType).accept(array); //Algorithmus aufrufen
         long end = System.currentTimeMillis();
+
         if (!isSorted(array))
             System.out.println("Feld ist NICHT sortiert!");
         else
@@ -69,6 +70,7 @@ public class Sortierung {
             for (int i = 0; i < array.length; i++)
                 System.out.print(array[i] + " ");
         System.out.println();
+
     }
 
     public static void insertionSort(int[] array) {
