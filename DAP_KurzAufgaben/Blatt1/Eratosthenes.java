@@ -12,7 +12,7 @@ public class Eratosthenes {
             if(isPrime(i)){
                 count++;
                 for(int t = 2*i;t<n;t=t+i)  //Vielfache von i als nicht Primzahl makieren
-                    clearPrimeFlag(t);
+                    clearPrimeFlag(t);  //t ist keine primzahl da vielfaches von i
             }
         }
     }
@@ -21,7 +21,7 @@ public class Eratosthenes {
     }
     public void show(){
         //Ausgabe für alle i die Primzahlen sind
-        System.out.println("Primes : \n");
+        System.out.println("Primzahlen : \n");
         for(int i = 2;i!=isNotPrime_Array.length;i++)
             if(isPrime(i))
                 System.out.print(i+" ");
@@ -50,8 +50,8 @@ public class Eratosthenes {
         // Grobe Überprüfung von Parametern (Anzahl)
         if(args==null||args.length==0||args.length>2){
             System.out.println("Parameter invalid!");
-            System.out.println("nutze 'Erathosthenes n [-o]'");
-            System.out.println("mit n Zahl größer 1 und -o optinaler Parameter für die Ausgabe der Primzahlen");
+            System.out.println("Nutze 'Erathosthenes n [-o]'");
+            System.out.println("Mit n Zahl größer 1 und -o optinaler Parameter für die Ausgabe der Primzahlen");
             return;
         }else{
             try{
@@ -59,6 +59,7 @@ public class Eratosthenes {
                 n=Integer.parseInt(args[0]);
             }catch (Exception e){
                 System.out.println("Fehler : Parameter ist keine Natürliche Zahl!");
+                return;
             }
         }
         // falls es 2 Parameter gibt kann dies nur die output flag sein
