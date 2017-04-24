@@ -59,6 +59,7 @@ public class Eratosthenes {
                 n=Integer.parseInt(args[0]);
             }catch (Exception e){
                 System.out.println("Fehler : Parameter ist keine Natürliche Zahl!");
+                return;
             }
         }
         // falls es 2 Parameter gibt kann dies nur die output flag sein
