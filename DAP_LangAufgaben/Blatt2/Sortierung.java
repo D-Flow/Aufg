@@ -9,7 +9,9 @@ import java.util.function.Function;
  * Aufgabe 1&2
  */
 public class Sortierung {
+    //Algorithmus abbildung also von String -> Algoritmus(int[] arr)
     private static Map<String, Consumer<int[]>> algMap = new HashMap<>();
+    //Füll abbildung also von String -> Füllfunktion(int n)
     private static Map<String, Function<Integer, int[]>> fillMap = new HashMap<>();
 
     static {

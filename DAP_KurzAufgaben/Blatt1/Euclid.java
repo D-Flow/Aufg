@@ -7,7 +7,8 @@ public class Euclid {
         //Überprüfung der Parameter anzahl
         if(args==null||args.length!=2){
             System.out.println("Fehler: Zwei Positive Zahlen erwartet!");
-            return;
+            System.out.println("Nutze 'Euclid a b',mit a,b Natürliche Zahl, um ggt(a,b) auszurechnen.");
+            return;     //Parameter anzahl falsch
         }
         try{
             //Versuche ersten beiden Parameter in Zahlen zu casten

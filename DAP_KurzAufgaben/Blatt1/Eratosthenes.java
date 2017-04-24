@@ -3,11 +3,16 @@
  */
 public class Eratosthenes {
     private final boolean[] isNotPrime_Array; // Inverted damit weniger initialisierung! Nutze Access Methoden!
-    private int count=0;    //Menge der Primzahlen
+    // es gilt isNotPrime_Array[LENGHT-1] steht für die zahl n... somit isNotPrime_Array[0] für 1
+
+    private int count = 0;    //Anzahl der Primzahlen
+
     public Eratosthenes(int n){
         if(n<2)
             throw new IllegalStateException("n < 2 => No primes found!");
+
         isNotPrime_Array=new boolean[n];    //Siehe Aufgabe; da 'invertiert' sind alles Primzahlen
+
         for(int i = 2;i!=n;i++){        //Sieb des Erathosthenes
             if(isPrime(i)){
                 count++;
@@ -16,9 +21,11 @@ public class Eratosthenes {
             }
         }
     }
+
     public int countPrimes(){
         return count;
     }
+
     public void show(){
         //Ausgabe für alle i die Primzahlen sind
         System.out.println("Primzahlen : \n");
@@ -27,6 +34,7 @@ public class Eratosthenes {
                 System.out.print(i+" ");
         System.out.println();
     }
+
     public boolean isPrime(int i){
         // Es gilt arr[i-1] ist für die Zahl i da arrays von 0 bis n-1 definiert => müssen von i = 1 bis i = n zugreifen
         if(i<=isNotPrime_Array.length&&i>0)
@@ -34,6 +42,7 @@ public class Eratosthenes {
         else
             throw new IllegalStateException("Index out of Bounds");
     }
+
     private void clearPrimeFlag(int i){
         // siehe isPrime und beachte array inverted
         if(i<=isNotPrime_Array.length&&i>0)
@@ -52,10 +61,10 @@ public class Eratosthenes {
             System.out.println("Parameter invalid!");
             System.out.println("Nutze 'Erathosthenes n [-o]'");
             System.out.println("Mit n Zahl größer 1 und -o optinaler Parameter für die Ausgabe der Primzahlen");
-            return;
+            return; //Parameter Anzahl falsch
         }else{
             try{
-                //Erster Parameter 'versuchen' in eine Zahl zu casten
+                //Ersten Parameter 'versuchen' in eine Zahl zu casten
                 n=Integer.parseInt(args[0]);
             }catch (Exception e){
                 System.out.println("Fehler : Parameter ist keine Natürliche Zahl!");
