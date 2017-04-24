@@ -26,10 +26,10 @@ public class Sortierung {
         int n;
         String sortType = "merge", fillType = "rand";
 
-        if (args == null || !(args.length == 1 || args.length == 3)) {
+        if (args == null || !(args.length >= 1 && args.length <= 3)) {
             System.out.println("Parameter anzahl inkorrekt!");
             System.out.println("Nutze 'Sortierung n' mit n Natürliche Zahl um ein Zufälliges Array mit Mergesort zu sortieren.");
-            System.out.println("Nutze 'Sorterung n merge|insert rand|auf|ab' für bestimmtes Sortieren.");
+            System.out.println("Nutze 'Sorterung n [merge|insert [rand|auf|ab]]' für bestimmtes Sortieren.");
             return; //ERROR Aufruf hat falsche Form
         }
         try {
@@ -43,7 +43,8 @@ public class Sortierung {
         }
         if (args.length > 1) {  //fülltyp und sortierverfahren aus Parameter entnehmen
             sortType = args[1];
-            fillType = args[2];
+            if (args.length > 2)
+                fillType = args[2];
         }
         // sortType,fillType nun valid
         if (!algMap.containsKey(sortType)) {    //Prüfen ob das sortierverfahren vorhanden ist
