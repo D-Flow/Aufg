@@ -5,7 +5,7 @@
 #include <pwd.h>
 
 
-int main(int n,char* c[])
+int main(int n,char* c[])   //c array of char*; *c ist programm name
 {
     uid_t U_ID= getuid();
     gid_t G_ID= getgid();
@@ -14,7 +14,7 @@ int main(int n,char* c[])
         G_ID= getgid();
     }
     if(n==2){
-        printf("Checking user : %s\n",c[1]);
+        //printf("Checking user : %s\n",c[1]);      //Testmethode
         struct passwd* STR_PWD=getpwnam(c[1]);
         U_ID=STR_PWD->pw_uid;
         G_ID=STR_PWD->pw_gid;
