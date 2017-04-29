@@ -2,7 +2,7 @@
  *
  */
 public class Euclid {
-    public static void main(String...args){
+    public static void main(String[] args) {
         int a,b=0;
         //Überprüfung der Parameter anzahl
         if(args==null||args.length!=2){
