@@ -1,0 +1,15 @@
+BS-Blatt 1
+
+Theoriefragen: Systemumgebung
+1) PATH ist eine Umgebungsvariable. Diese gelangt in ein Verzeichnis. Falls das Verzeichnis in diesen PATH liegt dann brauch man nicht den kompletten Pfad geben, sonder es reicht dann das Verzeichnis aus PATH zugeben. zb. "ls" anstatt ls "/bin/ls"
+
+2) Allgemein rm ist der Befehl um Dateien zulöschen und rmdir ist da um ein leeren Ordner zulöschen. rm(1) und rmdir(1) sind die Handbücher von der jeweiligen Methode, um dies anzuschauen muss man folgendes angeben: "man rm" und "man rmdir".(Die "1" ist die erste Seite des Handbuchs) 
+
+3)SIGKILL beendet den Prozess direkt ohne den Prozess Zeit zugeben um eventuell die Daten zuspeichern. Bei SIGTERM hat der Prozess noch Zeit wichtige Daten abzuspeichern und dann wird der Prozess beendet.
+
+4) Mit der Eingabe "man -h" oder "man -HTML" kann man eine Handbuchseite im HTML link öffnen.
+
+5) Mit "date +%V" kann man die aktuelle Wochennummer angeben (Wochentag startet ab Montag). Für Wochenbeginn Sonntag gibt es folgenden Befehl: "date +%U".
+
+
+Fortsetzung Theoriefrage: Variablen in C
