@@ -2,7 +2,8 @@ BS-Blatt 1
 
 Theoriefragen: Systemumgebung
 
-1)  PATH ist eine Umgebungsvariable. In der Variable können Pfade zu bestimmten Verzeichnissen sein, welche durch ':' abgetrennt werden. Falls das Verzeichniss in PATH liegt dann, so besitzt man Zugriff auf alle Programme in dem Verzeichniss und man braucht nicht den kompletten Pfad angeben. zb. "ls" anstatt ls "/bin/ls"
+1)  PATH ist eine Umgebungsvariable. In der Variable können Pfade zu bestimmten Verzeichnissen sein, welche durch ':' abgetrennt werden.
+    Falls das Verzeichniss in PATH liegt dann, so besitzt man Zugriff auf alle Programme in dem Verzeichniss und man braucht nicht den kompletten Pfad angeben. zb. "ls" anstatt ls "/bin/ls"
 
 2)  Allgemein rm ist der Befehl um Dateien zulöschen und rmdir ist da um Ordner zulöschen, wobei dieser Ordner leer sein muss.
     Desweiteren kann man 'rm -d' wie 'rmdir' nutzen um leere Ordner zulöschen.
