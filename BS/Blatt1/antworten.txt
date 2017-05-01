@@ -2,12 +2,14 @@ BS-Blatt 1
 
 Theoriefragen: Systemumgebung
 
-1)  PATH ist eine Umgebungsvariable. Diese gelangt in ein Verzeichnis. Falls das Verzeichnis in diesen PATH liegt dann brauch man nicht den kompletten Pfad geben, sonder es reicht dann das Verzeichnis aus PATH zugeben. zb. "ls" anstatt ls "/bin/ls"
+1)  PATH ist eine Umgebungsvariable. In der Variable können Pfade zu bestimmten Verzeichnissen sein, welche durch ':' abgetrennt werden. Falls das Verzeichniss in PATH liegt dann, so besitzt man Zugriff auf alle Programme in dem Verzeichniss und man braucht nicht den kompletten Pfad angeben. zb. "ls" anstatt ls "/bin/ls"
 
-2)  Allgemein rm ist der Befehl um Dateien zulöschen und rmdir ist da um ein leeren Ordner zulöschen.
+2)  Allgemein rm ist der Befehl um Dateien zulöschen und rmdir ist da um Ordner zulöschen, wobei dieser Ordner leer sein muss.
+    Desweiteren kann man 'rm -d' wie 'rmdir' nutzen um leere Ordner zulöschen.
     rm(1) und rmdir(1) sind die Handbücher von der jeweiligen Methode, um dies anzuschauen muss man folgendes angeben: "man rm" und "man rmdir".(Die "1" ist die erste Seite des Handbuchs)
 
-3)  SIGKILL beendet den Prozess direkt ohne den Prozess Zeit zugeben um eventuell die Daten zuspeichern. Bei SIGTERM hat der Prozess noch Zeit wichtige Daten abzuspeichern und dann wird der Prozess beendet.
+3)  SIGKILL beendet den Prozess direkt ohne den Prozess Zeit zum reagieren zugeben z.b Daten speichern,Verbindungen (normal) trennen.
+    Bei SIGTERM hat der Prozess noch Zeit auf das Signal zu reagieren um z.b Daten abzuspeichern und dann wird der Prozess beendet.
 
 4)  Mit der Eingabe "man -h" oder "man -HTML" kann man eine Handbuchseite im HTML link öffnen.
 
