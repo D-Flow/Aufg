@@ -60,7 +60,7 @@ public class Sortierung {
 
         int[] array = fillMap.get(fillType).apply(n);   //füllverfahren auswählen und mit n aufrufen
         long start = System.currentTimeMillis();
-        algMap.get(sortType).accept(array); //Algorithmus aufrufen
+        algMap.get(sortType).accept(array); //Algorithmus aufrufen und array übergeben
         long end = System.currentTimeMillis();
 
         if (!isSorted(array))
@@ -88,7 +88,7 @@ public class Sortierung {
                 array[j + 1] = array[j];    // move array[j] to array[j+1]
                 j--;
             }
-            // array[j]<= key
+            // array[j]<= key und j+1 ist frei
             array[j + 1] = key;
         }
         assert isSorted(array);
