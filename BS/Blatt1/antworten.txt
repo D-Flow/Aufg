@@ -15,3 +15,20 @@ Theoriefragen: Systemumgebung
 
 
 Fortsetzung Theoriefrage: Variablen in C
+
+Zunächst sind die Variablen luftreibung und g vor beginn des Programmes initialiesert.
+Alle Globalen Variablen denen vor Programmstart ein Wert zugewiesen ist landen im Datensegment.
+
+Die Variable luftdichte befindet sich im BSS da noch keine Zahl zugewiesen wurde,
+aber die Große von luftdichte bekannt ist. Der Speicherplatz wird sozusagen reserviert.
+
+Der Unterschied zwischen luftdichte und luftreibung ist Initialiesierung.
+Obwohl luftdichte im Verlauf des Programmes konstant bleibt weiß der Compiler dies nicht.
+
+Die Variable v liegt auf dem Stack da diese nach der Scope vom main gelöscht wird.
+Der Stackframe wird wieder zerückgesetzt.
+
+Die Parameter von endgeschwindigkeit liegen als Kopie auf dem Stack da,
+Parameter meist über diesen übergeben werden und nach der Funktion gelöscht werden.(Wie oben)
+
+Letztlich liegt endgeschwindigkeit als Funktion im Textsegment, da dies Programmcode ist.
