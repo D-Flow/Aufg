@@ -17,4 +17,21 @@ public class Point {
         return arr[i];
     }
     public int dim(){return dimension;}
+    public void inline_subtract(Point b){
+        if(dimension!=b.dimension)
+            throw new IllegalArgumentException("Falsche Dimension!");
+        for(int i = 0;i<dimension;i++)
+            arr[i]-=b.arr[i];
+    }
+    public Point subtract(Point a,Point b)
+    {
+        Point c;
+        if(a.dimension==b.dimension)
+            c=new Point(new double[a.dimension]);
+        else
+            throw new IllegalArgumentException("Falsche Dimension!");
+        for(int i = 0;i<a.dimension;i++)
+            c.arr[i]=a.arr[i]-b.arr[i];
+        return c;
+    }
 }

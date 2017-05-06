@@ -9,5 +9,6 @@ public interface Distance {
         double d = 0;
         for(int i = 1;i<= p1.dim();i++)
             d=d+p1.get(i)*p2.get(i);
+        return d;
     }
 }
