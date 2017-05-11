@@ -2,6 +2,7 @@
  *
  */
 public class Triangle extends Simplex{
+
     public Triangle(Point ... args){
         super(args);
     }
@@ -12,5 +13,9 @@ public class Triangle extends Simplex{
         if(getPointStream().count()!=3)
             return false;
         return true;
+
+    @Override
+    public boolean validate() {
+        return false;
     }
 }
