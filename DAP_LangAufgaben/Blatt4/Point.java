@@ -2,6 +2,7 @@
  *
  */
 public class Point {
+    public static final Point NULL_POINT_2D=new Point(0,0);
     private final int dimension;
     private final double[] arr;
     public Point(double ... v){
@@ -37,8 +38,21 @@ public class Point {
         return false;
     }
 
-
-    public Point subtract(Point a,Point b)
+    public double angle_2D(){
+        EuklidDistance euc=new EuklidDistance();
+        double x1=get(1);
+        System.out.println("LEN : "+euc.distance(NULL_POINT_2D,this));
+        double cosan = Math.acos(x1/euc.distance(NULL_POINT_2D,this));
+        System.out.println("Sin : "+Math.asin(get(2)/euc.distance(NULL_POINT_2D,this)));
+        return cosan;
+    }
+    public static void main(String...ar){
+        Point a = new Point(1,1),b=new Point(-5,3),c=new Point(0.1,-1.3);
+        System.out.println(a.angle_2D());
+        System.out.println(b.angle_2D());
+        System.out.println(c.angle_2D());
+    }
+    public static Point subtract(Point a,Point b)
     {
         Point c;
         if(a.dimension==b.dimension)

@@ -44,9 +44,26 @@ public class ConvexHull {
         //do magic
         return new LinkedList<>();
     }
-    private boolean hasValidPosition(Point p,Tuple<Point> line){
-        //case auf grade
-        // case links
+    private boolean isOnLine(Point p,Tuple<Point> vec){
+        return false;
+    }
+    private strictfp double angle(Point p,Tuple<Point> vec){
+        Point pointA = Point.subtract(p,vec.a);
+        Point pointB = Point.subtract(vec.b,vec.a);
+        Point nullPoint=new Point(0,0);
+        EuklidDistance euc=new EuklidDistance();
+        double x1=pointA.get(1),x2=pointB.get(1);
+        double cosan = Math.acos(x1/euc.distance(nullPoint,pointA));
+        System.out.println(Math.asin(pointA.get(2)/euc.distance(nullPoint,pointA)));
+        return cosan;
+    }
+    private strictfp double fast_appr(Point p,Tuple<Point> vec){
+        return 0;
+    }
+    private boolean hasValidPosition(Point p,Tuple<Point> vec){
+        double angle = angle(p,vec);
+        if(isOnLine(p,vec)||(angle<Math.PI&&angle>0))
+            return true;
         return false;
     }
 }
