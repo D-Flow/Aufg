@@ -8,14 +8,10 @@ public class Triangle extends Simplex{
     }
     @Override
     public boolean validate() {
-        if(getPointStream().anyMatch((p)->p.dim()!=2))
+        if (getPointStream().anyMatch((p) -> p.dim() != 2))
             return false;
-        if(getPointStream().count()!=3)
+        if (getPointStream().count() != 3)
             return false;
         return true;
-
-    @Override
-    public boolean validate() {
-        return false;
     }
 }

@@ -41,7 +41,8 @@ public class ConvexHull {
             if(isValidLine)
                 set.add(tuple);
         }
-
+        //do magic
+        return new LinkedList<>();
     }
     private boolean hasValidPosition(Point p,Tuple<Point> line){
         //case auf grade
