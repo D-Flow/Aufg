@@ -14,6 +14,8 @@ public abstract class Simplex {
             throw new IllegalArgumentException();
         dim=p.length-1;
     }
+
+    //Benötigte Access Methode...
     public Point getPoint(int i){
         i--;
         if(i<0||i>=arr.length)
@@ -21,17 +23,14 @@ public abstract class Simplex {
         return arr[i];
     }
 
-    public Stream<Point> getPointStream(){
-        return Stream.of(arr);
-    }
-
-
+    //Access Methoden
+    public Stream<Point> getPointStream(){return Stream.of(arr);}
     public Iterator<Point> getIterator(){
         return new Iterator<Point>() {
             int i = 0;
             @Override
             public boolean hasNext() {
-                return i<dim+1;
+                return i<arr.length;
             }
 
             @Override
@@ -53,16 +52,8 @@ public abstract class Simplex {
     public abstract boolean validate();
     public double perimeter(){
         double d = 0;
-
         if(dim==1)
             return d;
-        Point A = getPoint(1);
-        for(int i = 2;i<=dim+1;i++){
-            Point B = getPoint(i);
-            d+=euclid.distance(A,B);
-            A=B;
-        }
-        d+=euclid.distance(getPoint(1),A);  //A ist letzter punkt
 
         Iterator<Point> it = getIterator();
         Point p1=it.next();
@@ -72,7 +63,7 @@ public abstract class Simplex {
             d+=euclid.distance(p1,p2);
             p1=p2;
         }
-        return d;
+        return d+euclid.distance(getPoint(1),p1);
 
     }
 }

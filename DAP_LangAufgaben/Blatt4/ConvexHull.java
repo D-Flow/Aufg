@@ -12,25 +12,27 @@ public class ConvexHull {
         T a,b;
     }
 
-    private Tuple<Point>[] generateTuplex(Point[] P){
-        List<Tuple<Point>> tupleList=new LinkedList<>();
+    private Tuple<Vec2D>[] generateTuples(Point[] P){
+        List<Tuple<Vec2D>> tupleList=new LinkedList<>();
         for(Point a : P)
             for(Point b : P)
                 if(!a.equals(b))
-                    tupleList.add(new Tuple<>(a,b));
+                    tupleList.add(new Tuple<>(new Vec2D(a.get(1),a.get(2)),new Vec2D(b.get(1),b.get(2))));
         return tupleList.toArray(new Tuple[0]);
     }
+
     private boolean dimCheck(Point[] arr){
         for(Point p : arr)
             if(p.dim()!=2)
                 return false;
         return true;
     }
+
     public List<Point> simpleConvex(Point[] P){
         dimCheck(P);
-        Tuple<Point>[] pointTuples=generateTuplex(P);
-        Set<Tuple<Point>> set=new HashSet<>();
-        for(Tuple<Point> tuple : pointTuples){
+        Tuple<Vec2D>[] pointTuples=generateTuples(P);
+        Set<Tuple<Vec2D>> set=new HashSet<>();
+        for(Tuple<Vec2D> tuple : pointTuples){
             boolean isValidLine=true;
             for(Point p : P){
                 if(!hasValidPosition(p,tuple)){
@@ -44,26 +46,13 @@ public class ConvexHull {
         //do magic
         return new LinkedList<>();
     }
-    private boolean isOnLine(Point p,Tuple<Point> vec){
-        return false;
-    }
-    private strictfp double angle(Point p,Tuple<Point> vec){
-        Point pointA = Point.subtract(p,vec.a);
-        Point pointB = Point.subtract(vec.b,vec.a);
-        Point nullPoint=new Point(0,0);
-        EuklidDistance euc=new EuklidDistance();
-        double x1=pointA.get(1),x2=pointB.get(1);
-        double cosan = Math.acos(x1/euc.distance(nullPoint,pointA));
-        System.out.println(Math.asin(pointA.get(2)/euc.distance(nullPoint,pointA)));
-        return cosan;
-    }
-    private strictfp double fast_appr(Point p,Tuple<Point> vec){
-        return 0;
-    }
-    private boolean hasValidPosition(Point p,Tuple<Point> vec){
-        double angle = angle(p,vec);
-        if(isOnLine(p,vec)||(angle<Math.PI&&angle>0))
-            return true;
-        return false;
+
+    private boolean hasValidPosition(Point p,Tuple<Vec2D> vec){
+        Vec2D target=new Vec2D(p.get(1),p.get(2));
+        target.subtract(vec.a);
+        Vec2D base = vec.b.clone();
+        base.subtract(vec.a);
+        double relative_angle=target.angle()-base.angle();
+        return target.inLineWith(base)||(relative_angle>0&&relative_angle<Math.PI);
     }
 }
