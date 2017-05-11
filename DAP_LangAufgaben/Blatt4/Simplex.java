@@ -1,5 +1,7 @@
 import java.util.Iterator;
 
+import java.util.stream.Stream;
+
 /**
  *
  */
@@ -18,6 +20,12 @@ public abstract class Simplex {
             throw new IndexOutOfBoundsException();
         return arr[i];
     }
+
+    public Stream<Point> getPointStream(){
+        return Stream.of(arr);
+    }
+
+
     public Iterator<Point> getIterator(){
         return new Iterator<Point>() {
             int i = 0;
@@ -37,6 +45,7 @@ public abstract class Simplex {
             }
         };
     }
+
     private Distance euclid=new EuklidDistance();
     public int dim(){
         return dim;
@@ -44,6 +53,17 @@ public abstract class Simplex {
     public abstract boolean validate();
     public double perimeter(){
         double d = 0;
+
+        if(dim==1)
+            return d;
+        Point A = getPoint(1);
+        for(int i = 2;i<=dim+1;i++){
+            Point B = getPoint(i);
+            d+=euclid.distance(A,B);
+            A=B;
+        }
+        d+=euclid.distance(getPoint(1),A);  //A ist letzter punkt
+
         Iterator<Point> it = getIterator();
         Point p1=it.next();
         for(Point p2 = it.next();it.hasNext();p2=it.next()){
