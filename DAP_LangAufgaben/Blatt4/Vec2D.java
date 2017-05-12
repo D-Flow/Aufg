@@ -26,10 +26,7 @@ public class Vec2D  extends Point{
         len=Math.sqrt(x*x+y*y);
         x=a/len;
         y=b/len;
-        arg=cos_angle();
-    }
-    private double cos_angle(){
-        return Math.acos(x);    // x normiert
+        arg=Math.acos(x);
     }
     public double getLen(){
         return len;
@@ -41,33 +38,6 @@ public class Vec2D  extends Point{
         if(isNULLVEC)
             return NULLVEC;
         return new Vec2D(x,y,len,arg);
-    }
-
-    public void multiplyComplx(Vec2D b){
-        if(isNULLVEC||b.isNULLVEC){
-            isNULLVEC=true;
-            x=y=len=arg=0;
-            return;
-        }
-        arg=arg+b.arg;
-        while(arg>Math.PI*2)
-            arg=arg-Math.PI*2;
-        x=Math.cos(arg);
-        y=Math.sin(arg);
-    }
-    public void multiplyScal(double b){
-        if(b==0){
-            isNULLVEC=true;
-            x=y=len=arg=0;
-            return;
-        }
-        if(b<0){
-            b=Math.abs(b);
-            arg=arg*-1;
-            x=-x;
-            y=-y;
-        }
-        len=len*b;
     }
     public void subtract(Vec2D b){
         if(x*len==b.x*b.len&&y*len==b.y*b.len){

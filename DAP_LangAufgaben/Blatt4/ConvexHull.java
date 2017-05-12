@@ -4,21 +4,21 @@ import java.util.*;
  *
  */
 public class ConvexHull {
-    public static class Tuple<T>{
-        public Tuple(T a,T b){
+    public static class Pair<T>{
+        public Pair(T a, T b){
             this.a=a;
             this.b=b;
         }
         T a,b;
     }
 
-    private Tuple<Vec2D>[] generateTuples(Point[] P){
-        List<Tuple<Vec2D>> tupleList=new LinkedList<>();
+    private Pair<Vec2D>[] generatePairs(Point[] P){
+        List<Pair<Vec2D>> pairList =new LinkedList<>();
         for(Point a : P)
             for(Point b : P)
                 if(!a.equals(b))
-                    tupleList.add(new Tuple<>(new Vec2D(a.get(1),a.get(2)),new Vec2D(b.get(1),b.get(2))));
-        return tupleList.toArray(new Tuple[0]);
+                    pairList.add(new Pair<>(new Vec2D(a.get(1),a.get(2)),new Vec2D(b.get(1),b.get(2))));
+        return pairList.toArray(new Pair[0]);
     }
 
     private boolean dimCheck(Point[] arr){
@@ -30,24 +30,24 @@ public class ConvexHull {
 
     public List<Point> simpleConvex(Point[] P){
         dimCheck(P);
-        Tuple<Vec2D>[] pointTuples=generateTuples(P);
-        Set<Tuple<Vec2D>> set=new HashSet<>();
-        for(Tuple<Vec2D> tuple : pointTuples){
+        Pair<Vec2D>[] pointPairs = generatePairs(P);
+        Set<Pair<Vec2D>> set=new HashSet<>();
+        for(Pair<Vec2D> pair : pointPairs){
             boolean isValidLine=true;
             for(Point p : P){
-                if(!hasValidPosition(p,tuple)){
+                if(!hasValidPosition(p, pair)){
                     isValidLine=false;
                     break;
                 }
             }
             if(isValidLine)
-                set.add(tuple);
+                set.add(pair);
         }
         //do magic
         return new LinkedList<>();
     }
 
-    private boolean hasValidPosition(Point p,Tuple<Vec2D> vec){
+    private boolean hasValidPosition(Point p, Pair<Vec2D> vec){
         Vec2D target=new Vec2D(p.get(1),p.get(2));
         target.subtract(vec.a);
         Vec2D base = vec.b.clone();
