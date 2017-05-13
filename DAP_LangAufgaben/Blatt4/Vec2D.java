@@ -4,7 +4,9 @@
 public class Vec2D  extends Point{
     public static Vec2D NULLVEC=new Vec2D(0,0);
     private double x,y,len,arg;
-    private boolean isNULLVEC=false;
+    private boolean isNULLVEC(){
+        return x==0&&y==0;
+    };
     protected Vec2D(double x,double y,double len,double arg){
         super(x*len,y*len);
         this.x=x;this.y=y;
@@ -14,7 +16,6 @@ public class Vec2D  extends Point{
         super(a,b);
         if(a==0&&b==0){
             a=b=len=arg=0;
-            isNULLVEC=true;
             return;
         }
         init(a,b);
@@ -23,10 +24,12 @@ public class Vec2D  extends Point{
         return new Point(x*len,y*len);
     }
     private void init(double a,double b){
-        len=Math.sqrt(x*x+y*y);
+        len=Math.sqrt(a*a+b*b);
         x=a/len;
         y=b/len;
         arg=Math.acos(x);
+        if(b<0)
+            arg=arg*-1;
     }
     public double getLen(){
         return len;
@@ -35,22 +38,26 @@ public class Vec2D  extends Point{
         return arg;
     }
     public Vec2D clone(){
-        if(isNULLVEC)
+        if(isNULLVEC())
             return NULLVEC;
         return new Vec2D(x,y,len,arg);
     }
     public void subtract(Vec2D b){
         if(x*len==b.x*b.len&&y*len==b.y*b.len){
-            isNULLVEC=true;
             y=x=arg=len=0;
         }
         init(x*len-b.x*b.len,y*len-b.y*b.len);
     }
     public boolean inLineWith(Vec2D b){
-        if(isNULLVEC||b.isNULLVEC)
+        if(isNULLVEC()||b.isNULLVEC())
             return false;
-        double alpha=b.x/x;
-        return alpha*x==b.y;
+        if(x!=0) {
+            double alpha = b.x / x;
+            return alpha * y == b.y;
+        }else {
+            double alpha = b.y / y;
+            return alpha * x == b.x;
+        }
     }
 
     @Override

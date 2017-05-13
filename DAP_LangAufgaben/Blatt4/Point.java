@@ -20,13 +20,19 @@ public class Point {
     }
 
     public int dim(){return dimension;}
-
+    public String toString(){
+        String s = "(";
+        for(int i = 1;i<=dim();i++)
+            s+=get(i)+";";
+        s+=")";
+        return s;
+    }
     public boolean equals(Object o){
         if(o instanceof Point){
             if(((Point) o).dim()!=dim())
                 return false;
-            for(int i = 0;i<arr.length;i++)
-                if(((Point) o).arr[i]!=arr[i])
+            for(int i = 1;i<=dim();i++)
+                if(((Point) o).get(i)!=get(i))
                     return false;
             return true;
         }
