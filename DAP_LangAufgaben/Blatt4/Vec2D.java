@@ -2,7 +2,6 @@
  *
  */
 public class Vec2D  extends Point{
-    public static Vec2D NULLVEC=new Vec2D(0,0);
     private double x,y,len,arg;
     private boolean isNULLVEC(){
         return x==0&&y==0;
@@ -28,18 +27,18 @@ public class Vec2D  extends Point{
         x=a/len;
         y=b/len;
         arg=Math.acos(x);
-        if(b<0)
-            arg=arg*-1;
+        if(b<0) arg=-arg;   // cos ist sym , sin nicht => falls b>0 so muss x>0 da sin(x) >0 in[0,PI]
     }
     public double getLen(){
         return len;
     }
+    //Winkel zwischen [-PI,PI]
     public double angle(){
         return arg;
     }
     public Vec2D clone(){
         if(isNULLVEC())
-            return NULLVEC;
+            return new Vec2D(0,0);
         return new Vec2D(x,y,len,arg);
     }
     public void subtract(Vec2D b){
@@ -48,7 +47,7 @@ public class Vec2D  extends Point{
         }
         init(x*len-b.x*b.len,y*len-b.y*b.len);
     }
-    public boolean inLineWith(Vec2D b){
+    public boolean linearDependent(Vec2D b){
         if(isNULLVEC()||b.isNULLVEC())
             return false;
         if(x!=0) {
@@ -59,7 +58,11 @@ public class Vec2D  extends Point{
             return alpha * x == b.x;
         }
     }
-
+    public boolean equals(Object o){
+        if(o instanceof Vec2D){
+            return ((Vec2D) o).len==len&&((Vec2D) o).x==x&&((Vec2D) o).y==y;
+        }else return super.equals(o);
+    }
     @Override
     public double get(int i) {
         if(i==1)

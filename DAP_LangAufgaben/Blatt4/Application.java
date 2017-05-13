@@ -20,7 +20,7 @@ public class Application {
         else
             System.out.println("Umfang : "+dreik.perimeter());
     }
-    public static double genDouble(int limit){
+    public static double genDouble(double limit){
         Random num=new Random();
         return num.nextDouble()*limit*(num.nextBoolean()?1:-1);
     }
