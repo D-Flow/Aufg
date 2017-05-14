@@ -53,7 +53,7 @@ public class ConvexHull {
             for (Point p : P) {
                 if (p.equals(pair.a) || p.equals(pair.b))  //Falls p einer der Beiden Punkte ist
                     continue;
-                if (!hasValidPosition(p, pair)) { //Fall p nicht links von der grade durch das Paar
+                if (!hasValidPosition(p, pair)) { //Falls p nicht links von der grade durch das Paar
                     isValidLine = false;
                     break;
                 }
@@ -61,8 +61,8 @@ public class ConvexHull {
             if (isValidLine)
                 ValidPairList.add(pair);//Das Paar ist eine Valide grade für die Hülle da alle Punkte links liegen
         }
+
         List<Point> pointList = new LinkedList<>();//Endliste
-        //do magic
         while (ValidPairList.size() > 0) {
             if (pointList.size() == 0) {
                 //Anfangswerte gehören zur hülle
@@ -94,8 +94,7 @@ public class ConvexHull {
         for (int i = 0; i < arr.length; i++)
             arr[i] = genPoint(1000, 1000);
         System.out.println(cv.simpleConvex(arr));
-        for(int i = 0;i!=500;i++)
-        System.out.println(genWithinHull(new Point(10, 10), new Point(10, 100), new Point(100, 10)));
+        System.out.println(genWithinHull(new Point(10, 10), new Point(10, 100), new Point(100, 10))+" liegt im Dreieck!");
 
     }
 
@@ -105,14 +104,14 @@ public class ConvexHull {
         return new Point(Application.genDouble(xLimit), Application.genDouble(yLimit));
     }
 
-    public static Point genPoint_Bound(double xmin, double xmax, double ymin, double ymax) {
+    public static Point genPointBound(double xmin, double xmax, double ymin, double ymax) {
         double lx = xmax - xmin, ly = ymax - ymin;
         return new Point(random.nextDouble() * lx + xmin, random.nextDouble() * ly + ymin);
     }
 
     public static Point genWithinHull(Point a, Point b, Point c) {
         ConvexHull cv = new ConvexHull();
-        Point p = genPoint_Bound(-1000, 1000, -1000, 1000);
+        Point p = genPointBound(-1000, 1000, -1000, 1000);
         //Generiere ein Punkt zwischen 10,10 und 100,100
         while (true) {
             List<Point> points = cv.simpleConvex(a, b, c, p);    //Berechne Hülle mit P
@@ -120,7 +119,7 @@ public class ConvexHull {
             if (points.size() == 3 && points.contains(a) && points.contains(b) && points.contains(c))
                 return p;
             else
-                p = genPoint_Bound(-1000, 1000, -1000, 1000);
+                p = genPointBound(-1000, 1000, -1000, 1000);
         }
 
     }
