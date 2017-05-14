@@ -22,11 +22,13 @@ public class Point {
     public int dim(){return dimension;}
     public String toString(){
         String s = "(";
-        for(int i = 1;i<=dim();i++)
+        for(int i = 1;i<dim();i++)
             s+=get(i)+";";
-        s+=")";
+        s+=get(dim())+")";
         return s;
     }
+
+    //Zwei Punkte sind gleich wenn dimensionen und werte gleich
     public boolean equals(Object o){
         if(o instanceof Point){
             if(((Point) o).dim()!=dim())
