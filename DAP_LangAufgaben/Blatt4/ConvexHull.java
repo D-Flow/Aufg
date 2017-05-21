@@ -11,7 +11,7 @@ public class ConvexHull {
         }
 
         public String toString() {
-            return "{"+a + "::" + b+"}";
+            return a + "::" + b;
         }
 
         public boolean equals(Object o) {
