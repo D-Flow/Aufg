@@ -11,5 +11,6 @@ public class Job {
     public int getDuration(){return dauer;}
     public int getDeadline(){return deadline;}
     public String toString(){return "["+dauer+", "+deadline+"]";}
-
+    public int getDelay(int finish){return deadline<=finish?0:finish-deadline;}
+    public int getDelayFromStart(int start){return getDelay(start+getDuration());}
 }

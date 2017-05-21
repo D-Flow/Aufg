@@ -15,6 +15,7 @@ public class Anwendung {
     public static int[] latenessScheduling(ArrayList<Job> jobs){
         return null;
     }
+
     public static RandomAccessFile raf;
     public static void main(String[] args) throws IOException{
         if(args.length!=2)return;
@@ -29,6 +30,7 @@ public class Anwendung {
             if(it==null) return;
             else intervalList.add(it);
         }
+        raf.close();
         if(intervalList.size()==0) {
             System.out.println("Keine Paare zur bearbeitung in der Eingabe!");
             return;
@@ -39,12 +41,15 @@ public class Anwendung {
 
         if(INTERVAL) {
             sortIntervals(intervalList);
-            interalScheduling(new ArrayList<>(intervalList));
+            ArrayList<Interval> scheduledI = interalScheduling(new ArrayList<>(intervalList));
+            System.out.println("Folge Intervalle wurden ausgewählt : \n"+scheduledI.toString());
         }else {
             ArrayList<Job> jobArrayList=new ArrayList<>(createJoblist(intervalList));
             sortJobs(jobArrayList);
-            latenessScheduling(jobArrayList);
+            int[] startT = latenessScheduling(jobArrayList);
+            System.out.println("Maximale Verspätung ist : "+maxDelay(startT,jobArrayList));
         }
+
         System.out.println("Sortiert : ");
         for(Interval i : intervalList)
             System.out.println(i);
@@ -52,7 +57,16 @@ public class Anwendung {
     }
     public static void sortIntervals(List<Interval> intervalList){intervalList.sort((Interval a,Interval b)->{return a.getEnd()-b.getEnd();});}
     public static void sortJobs(List<Job> jobList){jobList.sort((A,B)->A.getDeadline()-B.getDeadline());}
-
+    public static int maxDelay(int[] arr,List<Job> jobList){
+        int max = 0;
+        //der job i startet bei arr[i] und endet in arr[i]+joblänge
+        for(int i = 0;i<jobList.size();i++){
+            Job job=jobList.get(i);
+            if(job.getDelayFromStart(arr[i])>max)
+                max=job.getDelayFromStart(arr[i]);
+        }
+        return max;
+    }
     public static List<Job> createJoblist(List<Interval> list){
         List<Job> joblist=new LinkedList<Job>();
         for(Interval interval : list)
