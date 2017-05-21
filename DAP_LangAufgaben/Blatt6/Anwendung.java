@@ -10,9 +10,11 @@ import java.util.StringTokenizer;
  */
 public class Anwendung {
     public static ArrayList<Interval> interalScheduling(ArrayList<Interval> intervals){
+
         return null;
     }
     public static int[] latenessScheduling(ArrayList<Job> jobs){
+
         return null;
     }
 
