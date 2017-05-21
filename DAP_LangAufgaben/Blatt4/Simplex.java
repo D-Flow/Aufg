@@ -54,7 +54,7 @@ public abstract class Simplex {
         double d = 0;
         if(dim==1)
             return d;
-
+        //FALSCH
         Iterator<Point> it = getIterator();
         Point p1=it.next();
         for(Point p2 = it.next();it.hasNext();p2=it.next()){

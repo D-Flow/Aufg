@@ -14,7 +14,7 @@ public class Application {
                 arr[i]=new Point(genDouble(1000),genDouble(1000));
         else
             for(int i = 0;i<arr.length;i++)
-                arr[i]=new Point(Double.parseDouble(ar[i]),Double.parseDouble(ar[i+1]));
+                arr[i]=new Point(Double.parseDouble(ar[2*i]),Double.parseDouble(ar[2*i+1]));
 
         Triangle dreieck=new Triangle(arr);
         if(!dreieck.validate())

@@ -51,10 +51,7 @@ public class Vec2D  extends Point{
     public boolean linearDependent(Vec2D b){
         if(isNullVector()||b.isNullVector())
             return false;
-<<<<<<< HEAD
         //Berechne als lösung von A*alpha = B
-=======
->>>>>>> origin/master
         if(fullx!=0) {
             double alpha = b.fullx / fullx;
             return alpha * fully == b.fully;
