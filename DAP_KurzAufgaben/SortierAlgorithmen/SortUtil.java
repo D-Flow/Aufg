@@ -35,6 +35,7 @@ public class SortUtil {
             System.out.print(array[i] + " ");
         System.out.println();
     }
+    // Nutz Sortierungsfunktion auf dem array und gibt die Zeit in ms aus
     public static long messureMS(int[] arr, Consumer<int[]> Sortierung){
         long start=System.currentTimeMillis();
         Sortierung.accept(arr);
