@@ -1,5 +1,7 @@
 import java.util.Random;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  *
@@ -20,6 +22,22 @@ public class SortUtil {
     }
 
     private static Random random = new Random();
+    public static int[] fillIncreasing(int n){
+        if (n < 0)
+            throw new IllegalArgumentException("n < 0");
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++)
+            arr[i] = i+1;
+        return arr;
+    }
+    public static int[] fillDecreasing(int n){
+        if (n < 0)
+            throw new IllegalArgumentException("n < 0");
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++)
+            arr[i] = n-i;
+        return arr;
+    }
     public static int[] fillRandom(int n) {
         if (n < 0)
             throw new IllegalArgumentException("n < 0");
@@ -40,5 +58,9 @@ public class SortUtil {
         long start=System.currentTimeMillis();
         Sortierung.accept(arr);
         return System.currentTimeMillis()-start;
+    }
+
+    public static long messureTimeUsing(Consumer<int[]> Sort, Supplier<int[]> fill){
+        return messureMS(fill.get(),Sort);
     }
 }

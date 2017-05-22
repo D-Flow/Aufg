@@ -1,8 +1,8 @@
 /**
  *
  */
-public class Bubblesort {
-    public static void BubbleSort(int[] arr){
+public class BubbleSort {
+    public static void bubbleSort(int[] arr){
         int n = arr.length-1;
         for(int i = 0;i<=n;i++){
             assert SortUtil.isPartialSorted(arr,0,i);	// da minimum zu i bewegt wird
