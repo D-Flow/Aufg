@@ -1,11 +1,17 @@
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.io.RandomAccessFile;
 import java.util.LinkedList;
 import java.util.List;
 
 public class EditDistance {
+    public static class IntPair {
+        int a, b;
+
+        IntPair(int a, int b) {
+            this.a = a;
+            this.b = b;
+        }
+    }
     public static class Pair {
         public Pair(String a, String b) {
             this.a = a;
@@ -14,18 +20,20 @@ public class EditDistance {
 
         String a, b;
     }
-
     public static int distance(String a, String b) {
-        PrintStream stream = System.out;
-        System.setOut(new PrintStream(new OutputStream() {
-            @Override
-            public void write(int i) throws IOException {
-
+        int[][] arr = new int[a.length() + 1][b.length() + 1];
+        //arr[i][j] <=> Anzahl der änderungen beim vergleichen von a[1...i] und b[1...j]
+        for (int i = 0; i < arr.length; i++)
+            arr[i][0] = i;
+        for (int j = 0; j < arr[0].length; j++)
+            arr[0][j] = j;
+        for (int i = 1; i < arr.length; i++)
+            for (int j = 1; j < arr[i].length; j++) {
+                arr[i][j] = Math.min(arr[i - 1][j] + 1, arr[i][j - 1] + 1);
+                arr[i][j] = Math.min(arr[i][j], arr[i - 1][j - 1] + (a.charAt(i - 1) == b.charAt(j - 1) ? 0 : 1));
+                // nte Zeichen von a bzw b ist bei b.charAt(n-1)
             }
-        }));
-        int t = printEditOperations(a, b);
-        System.setOut(stream);
-        return t;
+        return arr[a.length()][b.length()];
     }
 
     public static int printEditOperations(String a, String b) {
@@ -40,17 +48,19 @@ public class EditDistance {
         boolean OFlag = false;
         if (args.length == 0) return;
         else OFlag = args[args.length - 1].equals("-o");
-
         if (args.length == 1 + (OFlag ? 1 : 0))
             raf = new RandomAccessFile(args[0], "");
         if (args.length == 2 + (OFlag ? 1 : 0))
             pairList.add(new Pair(args[0], args[1]));
-        if (raf == null || pairList.size() == 0) return;//Invalide Eingabe
+        if (raf == null && pairList.size() == 0) return;//Invalide Eingabe
+
+
 
 
         //Formatierungs bzw lese fehler werden nicht gefangen
-        for (String s = raf.readLine(); s != null; s = raf.readLine())
-            baseStrings.add(s);
+        if (raf != null)
+            for (String s = raf.readLine(); s != null; s = raf.readLine())
+                baseStrings.add(s);
 
         if (baseStrings.size() >= 1)
             pairList = combineStrings(baseStrings);
