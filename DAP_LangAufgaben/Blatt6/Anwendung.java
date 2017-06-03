@@ -17,7 +17,7 @@ public class Anwendung {
         for (int i = 1; i <= n; i++) {
             int startOfNext = intervals.get(i).getStart();
             int endOfLast = list.get(list.size() - 1).getEnd();
-            if (startOfNext >= endOfLast) {
+            if (startOfNext >= endOfLast) {//kompatibel
                 list.add(intervals.get(i));
                 j = i;
             }
