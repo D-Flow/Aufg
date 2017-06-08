@@ -19,7 +19,7 @@ public class EditDistance {
                 //arr[i][j-1]+1 minimal <=> B[1...j] ohne b_j kann optimal gelöst werden
                 // => A[1...i] mit b_j ist optimal bzgl B[1...j-1]
 
-                //falls a==b so muss dieses Zeichen nicht ersetzt werden
+                //falls a==b so muss dieses Zeichen nicht ersetzt werden <=> a wird übernommen bzw ite Zeichen
                 arr[i][j] = Math.min(arr[i][j], arr[i - 1][j - 1] + (a.charAt(i - 1) == b.charAt(j - 1) ? 0 : 1));
                 // nte Zeichen von a bzw b ist bei b.charAt(n-1)
             }
@@ -31,11 +31,14 @@ public class EditDistance {
         return arr[a.length()][b.length()];
     }
 
-    public static LinkedList<CharChange> applyOffsetChange(LinkedList<CharChange> l) {
+    //Addition und Lösch OP werden 'gleichzeitig' betrachtet
+    //Nach Add muss die Folgenden Ops auf index+1 zugreifen
+    //Sub analog
+    public static LinkedList<CharTRF> applyOffsetChange(LinkedList<CharTRF> l) {
         int offset = 0;
-        LinkedList<CharChange> retl = new LinkedList<>();
+        LinkedList<CharTRF> retl = new LinkedList<>();
         while (l.size() > 0) {
-            CharChange change = l.removeFirst();
+            CharTRF change = l.removeFirst();
             for (int i = 0; i < offset; i++)
                 change.increment();
             for (int i = offset; i < 0; i++)
@@ -47,29 +50,29 @@ public class EditDistance {
         return retl;
     }
 
-    public static List<CharChange> changeList(String a, String b, int[][] arr, int i, int j, LinkedList<CharChange> list) {
+    public static List<CharTRF> changeList(String a, String b, int[][] arr, int i, int j, LinkedList<CharTRF> list) {
         if (i == 0 && j == 0) return list;
 
         if (i >= 1 && j >= 1)//Zeichenvergleich möglich
         if (a.charAt(i - 1) == (b.charAt(j - 1)))
             if (arr[i][j] == arr[i - 1][j - 1]) {
-                list.addFirst(new CharChange(i, a.charAt(i - 1), a.charAt(i - 1)));
+                list.addFirst(new CharTRF(i, a.charAt(i - 1), a.charAt(i - 1)));
                 return changeList(a, b, arr, i - 1, j - 1, list);//nichts ersetzen, also keep
             }
         if (i >= 1 && j >= 0)//Es kann etwas gelöscht werden...
             if (arr[i][j] == arr[i - 1][j] + 1) {//Löschen
-                list.addFirst(new CharChange(i, a.charAt(i - 1), true));
+                list.addFirst(new CharTRF(i, a.charAt(i - 1), true));
                 return changeList(a, b, arr, i - 1, j, list);
             }
 
         if (i >= 0 && j >= 1)//Ein Zeichen kann hinzugefügt werden...
             if (arr[i][j] == arr[i][j - 1] + 1) {//Relative Addition nach dem iten Zeichen also in i+1
-                list.addFirst(new CharChange(i + 1, b.charAt(j - 1), false));
+                list.addFirst(new CharTRF(i + 1, b.charAt(j - 1), false));
                 return changeList(a, b, arr, i, j - 1, list);
             }
 
         //Ersetzen... muss passieren da arr wohldef.
-        list.addFirst(new CharChange(i, a.charAt(i - 1), b.charAt(j - 1)));
+        list.addFirst(new CharTRF(i, a.charAt(i - 1), b.charAt(j - 1)));
         return changeList(a, b, arr, i - 1, j - 1, list);
 
     }
@@ -88,7 +91,7 @@ public class EditDistance {
         int[][] arr = createTable(a, b);
         System.out.println("Vergleiche " + a + " mit " + b);
 
-        LinkedList<CharChange> linkedList = new LinkedList<>();
+        LinkedList<CharTRF> linkedList = new LinkedList<>();
         changeList(a, b, arr, a.length(), b.length(), linkedList);
         linkedList = applyOffsetChange(linkedList);
 
@@ -98,20 +101,22 @@ public class EditDistance {
 
         System.out.println("0) Endkosten : " + arr[a.length()][b.length()] + " start mit : " + characters + "");
         int nr = 1;
-        for (int i = 1; characters.size() > i - 1 || linkedList.size() > 0; ) {
+        for (int i = 1; characters.size() > i - 1 || linkedList.size() > 0; nr++) {
             System.out.print(nr + ") ");
-            nr++;
 
-            if (linkedList.size() > 0 && linkedList.getFirst().index == i) {
+            //if (linkedList.size() > 0 && linkedList.getFirst().index == i) {
                 System.out.print("Kosten : " + 1 + " " + linkedList.getFirst());
                 i += linkedList.removeFirst().apply(characters);
-            } else {
+            /*} else {
                 System.out.print("Kosten : 0 Übernehme Zeichen@" + i + "  '" + characters.get(i - 1) + "'");
                 i++;
-            }
+            }*/
             System.out.println(" : " + characters);
         }
         System.out.println();
+        for (int i = 0; i < b.length(); i++)
+            if (characters.get(i) != b.charAt(i)) throw new IllegalStateException("UMFORMUNG FEHLERHAFT!");
+
     }
 
     private static RandomAccessFile raf = null;
