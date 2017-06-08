@@ -18,6 +18,10 @@ public class EditDistance {
             this.b = b;
         }
 
+        public String toString() {
+            return a + "::" + b;
+        }
+
         String a, b;
     }
     public static int distance(String a, String b) {
@@ -30,12 +34,47 @@ public class EditDistance {
         for (int i = 1; i < arr.length; i++)
             for (int j = 1; j < arr[i].length; j++) {
                 arr[i][j] = Math.min(arr[i - 1][j] + 1, arr[i][j - 1] + 1);
+                //Erstes bedeutet Delta wenn wir von A[i] das ite löschen
+                //Zweites bedeutet Delta wenn wir von B[j] das jte Löschen bzw relative zu A addieren
+
+                //falls a==b so muss dieses Zeichen nicht ersetzt werden
                 arr[i][j] = Math.min(arr[i][j], arr[i - 1][j - 1] + (a.charAt(i - 1) == b.charAt(j - 1) ? 0 : 1));
                 // nte Zeichen von a bzw b ist bei b.charAt(n-1)
             }
+        printArray(arr);
+        LinkedList<Pair> l = new LinkedList();
+        System.out.println(rc(a, b, arr, a.length(), b.length(), l));
         return arr[a.length()][b.length()];
     }
 
+    public static List<Pair> rc(String a, String b, int[][] arr, int i, int j, LinkedList<Pair> list) {
+        if (i <= 0 || j <= 0) return list;
+        if (a.charAt(i - 1) == (b.charAt(j - 1)))
+            if (arr[i][j] == arr[i - 1][j - 1])
+                return rc(a, b, arr, i - 1, j - 1, list);//nichts ersetzen
+        if (arr[i][j] == arr[i - 1][j] + 1) {//Löschen
+            list.addFirst(new Pair("DEL@ : " + i, a.charAt(i - 1) + ""));
+            return rc(a, b, arr, i - 1, j, list);
+        }
+        if (arr[i][j] == arr[i][j - 1] + 1) {//Relative Addition
+            list.addFirst(new Pair("ADD@ : " + i, "" + b.charAt(j - 1)));
+            return rc(a, b, arr, i, j - 1, list);
+        }
+        //Ersetzen
+        list.addFirst(new Pair("REPLACE@ : " + i, a.charAt(i - 1) + " -> " + b.charAt(j - 1)));
+        return rc(a, b, arr, i - 1, j - 1, list);
+
+    }
+
+    public static void printArray(int[][] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length - 1; j++)
+                System.out.print(arr[i][j] + " ,");
+            if (arr[i].length >= 1)
+                System.out.println(arr[i][arr[i].length - 1]);
+        }
+        System.out.println();
+    }
     public static int printEditOperations(String a, String b) {
         return 0;
     }
@@ -68,7 +107,7 @@ public class EditDistance {
             if (OFlag)
                 printEditOperations(p.a, p.b);
             else
-                System.out.println("Distance : " + distance(p.a, p.b));
+                System.out.println("Distance : " + distance(p.a, p.b) + " von " + p.a + " :: " + p.b);
 
     }
 
