@@ -15,13 +15,8 @@ public class CharTRF {
         this.b = b;
     }
 
-    //Indexverschiebungen
-    public void increment() {
-        index++;
-    }
-
-    public void decrement() {
-        index--;
+    public void ShiftIndex(int i) {
+        index += i;
     }
 
     public CharTRF(int i, char a, boolean delete) {

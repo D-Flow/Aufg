@@ -39,10 +39,7 @@ public class EditDistance {
         LinkedList<CharTRF> retl = new LinkedList<>();
         while (l.size() > 0) {
             CharTRF change = l.removeFirst();
-            for (int i = 0; i < offset; i++)
-                change.increment();
-            for (int i = offset; i < 0; i++)
-                change.decrement();
+            change.ShiftIndex(offset);
             if (change.delete) offset--;
             if (change.add) offset++;
             retl.add(change);
@@ -50,6 +47,7 @@ public class EditDistance {
         return retl;
     }
 
+    // (i,j)->(0,0) und monoton fallend somit immer First addition
     public static List<CharTRF> changeList(String a, String b, int[][] arr, int i, int j, LinkedList<CharTRF> list) {
         if (i == 0 && j == 0) return list;
 
