@@ -72,9 +72,6 @@ public class EditDistance {
 
     }
 
-    public static void cc(String a, String b, List<CharChange> list) {
-
-    }
     public static void printArray(int[][] arr) {
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length - 1; j++)
