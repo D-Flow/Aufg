@@ -48,24 +48,35 @@ public class EditDistance {
     }
 
     public static List<Pair> rc(String a, String b, int[][] arr, int i, int j, LinkedList<Pair> list) {
-        if (i <= 0 || j <= 0) return list;
+        System.out.println("I : " + i + " J " + j);
+        if (i == 0 && j == 0) return list;
+
+        if (i >= 1 && j >= 1)//Zeichenvergleich möglich
         if (a.charAt(i - 1) == (b.charAt(j - 1)))
             if (arr[i][j] == arr[i - 1][j - 1])
                 return rc(a, b, arr, i - 1, j - 1, list);//nichts ersetzen
-        if (arr[i][j] == arr[i - 1][j] + 1) {//Löschen
-            list.addFirst(new Pair("DEL@ : " + i, a.charAt(i - 1) + ""));
-            return rc(a, b, arr, i - 1, j, list);
-        }
-        if (arr[i][j] == arr[i][j - 1] + 1) {//Relative Addition
-            list.addFirst(new Pair("ADD@ : " + i, "" + b.charAt(j - 1)));
-            return rc(a, b, arr, i, j - 1, list);
-        }
-        //Ersetzen
+
+        if (i >= 1 && j >= 0)//Es kann etwas gelöscht werden...
+            if (arr[i][j] == arr[i - 1][j] + 1) {//Löschen
+                list.addFirst(new Pair("DEL@ : " + i, a.charAt(i - 1) + ""));
+                return rc(a, b, arr, i - 1, j, list);
+            }
+
+        if (i >= 0 && j >= 1)//Ein Zeichen kann hinzugefügt werden...
+            if (arr[i][j] == arr[i][j - 1] + 1) {//Relative Addition
+                list.addFirst(new Pair("ADD@ : " + i, "" + b.charAt(j - 1)));//Add nachdem iten zeichen
+                return rc(a, b, arr, i, j - 1, list);
+            }
+
+        //Ersetzen... muss passieren da arr wohldef.
         list.addFirst(new Pair("REPLACE@ : " + i, a.charAt(i - 1) + " -> " + b.charAt(j - 1)));
         return rc(a, b, arr, i - 1, j - 1, list);
 
     }
 
+    public static void cc(String a, String b, List<Pair> list) {
+
+    }
     public static void printArray(int[][] arr) {
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[i].length - 1; j++)
