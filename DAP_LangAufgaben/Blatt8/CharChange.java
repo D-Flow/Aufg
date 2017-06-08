@@ -3,12 +3,13 @@ import java.util.ArrayList;
 public class CharChange {
 
     char a, b;
-    boolean replace = false, delete = false, add = false;
+    boolean replace = false, delete = false, add = false, keep = false;
     int index;
 
     public CharChange(int i, char a, char b) {
         index = i;
-        replace = true;
+        replace = a != b;
+        keep = !replace;
         this.a = a;
         this.b = b;
     }
@@ -47,13 +48,14 @@ public class CharChange {
             list.add(index - 1, a);
             return 1;
         }
-        return 0;
+        return 1;   //keep
     }
 
     public String toString() {
         if (replace) return "Ersetze Zeichen@" + index + " : '" + a + "' -> '" + b + "'";
         if (delete) return "Lösche Zeichen@" + index + " '" + a + "'";
         if (add) return "Füge '" + a + "' als Zeichen@" + index + " an";
+        if (keep) return "Übernehme '" + a + "' als Zeichen@" + index;
         return "F";
     }
 }

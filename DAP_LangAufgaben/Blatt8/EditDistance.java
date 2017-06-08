@@ -15,8 +15,9 @@ public class EditDistance {
         for (int i = 1; i < arr.length; i++)
             for (int j = 1; j < arr[i].length; j++) {
                 arr[i][j] = Math.min(arr[i - 1][j] + 1, arr[i][j - 1] + 1);
-                //Erstes bedeutet Delta wenn wir von A[i] das ite löschen
-                //Zweites bedeutet Delta wenn wir von B[j] das jte Löschen bzw relative zu A addieren
+                //arr[i-1][j]+1 minimal <=> A[1...i] ohne a_i kann optimal gelöst werden
+                //arr[i][j-1]+1 minimal <=> B[1...j] ohne b_j kann optimal gelöst werden
+                // => A[1...i] mit b_j ist optimal bzgl B[1...j-1]
 
                 //falls a==b so muss dieses Zeichen nicht ersetzt werden
                 arr[i][j] = Math.min(arr[i][j], arr[i - 1][j - 1] + (a.charAt(i - 1) == b.charAt(j - 1) ? 0 : 1));
@@ -30,7 +31,7 @@ public class EditDistance {
         return arr[a.length()][b.length()];
     }
 
-    public static LinkedList<CharChange> linearisedList(LinkedList<CharChange> l) {
+    public static LinkedList<CharChange> applyOffsetChange(LinkedList<CharChange> l) {
         int offset = 0;
         LinkedList<CharChange> retl = new LinkedList<>();
         while (l.size() > 0) {
@@ -51,18 +52,19 @@ public class EditDistance {
 
         if (i >= 1 && j >= 1)//Zeichenvergleich möglich
         if (a.charAt(i - 1) == (b.charAt(j - 1)))
-            if (arr[i][j] == arr[i - 1][j - 1])
-                return changeList(a, b, arr, i - 1, j - 1, list);//nichts ersetzen
-
+            if (arr[i][j] == arr[i - 1][j - 1]) {
+                list.addFirst(new CharChange(i, a.charAt(i - 1), a.charAt(i - 1)));
+                return changeList(a, b, arr, i - 1, j - 1, list);//nichts ersetzen, also keep
+            }
         if (i >= 1 && j >= 0)//Es kann etwas gelöscht werden...
             if (arr[i][j] == arr[i - 1][j] + 1) {//Löschen
-                list.addFirst(new CharChange(i, a.charAt(i - 1), true));//new Pair("DEL@ : " + i, a.charAt(i - 1) + ""));
+                list.addFirst(new CharChange(i, a.charAt(i - 1), true));
                 return changeList(a, b, arr, i - 1, j, list);
             }
 
         if (i >= 0 && j >= 1)//Ein Zeichen kann hinzugefügt werden...
             if (arr[i][j] == arr[i][j - 1] + 1) {//Relative Addition nach dem iten Zeichen also in i+1
-                list.addFirst(new CharChange(i + 1, b.charAt(j - 1), false));//"ADD@ : " + i, "" + b.charAt(j - 1)));//Add nachdem iten zeichen
+                list.addFirst(new CharChange(i + 1, b.charAt(j - 1), false));
                 return changeList(a, b, arr, i, j - 1, list);
             }
 
@@ -85,9 +87,11 @@ public class EditDistance {
     public static void printEditOperations(String a, String b) {
         int[][] arr = createTable(a, b);
         System.out.println("Vergleiche " + a + " mit " + b);
+
         LinkedList<CharChange> linkedList = new LinkedList<>();
         changeList(a, b, arr, a.length(), b.length(), linkedList);
-        linkedList = linearisedList(linkedList);
+        linkedList = applyOffsetChange(linkedList);
+
         ArrayList<Character> characters = new ArrayList<>(Math.max(a.length(), b.length()));
         for (int i = 0; i < a.length(); i++)
             characters.add(a.charAt(i));
@@ -97,13 +101,10 @@ public class EditDistance {
         for (int i = 1; characters.size() > i - 1 || linkedList.size() > 0; ) {
             System.out.print(nr + ") ");
             nr++;
-            CharChange c = null;
-            if (linkedList.size() > 0)
-                c = linkedList.getFirst();
-            if (c != null && c.index == i) {
-                System.out.print("Kosten : " + 1 + " " + c);
-                linkedList.removeFirst();
-                i += c.apply(characters);
+
+            if (linkedList.size() > 0 && linkedList.getFirst().index == i) {
+                System.out.print("Kosten : " + 1 + " " + linkedList.getFirst());
+                i += linkedList.removeFirst().apply(characters);
             } else {
                 System.out.print("Kosten : 0 Übernehme Zeichen@" + i + "  '" + characters.get(i - 1) + "'");
                 i++;
@@ -126,8 +127,6 @@ public class EditDistance {
         if (args.length == 2 + (OFlag ? 1 : 0))
             pairList.add(new Pair(args[0], args[1]));
         if (raf == null && pairList.size() == 0) return;//Invalide Eingabe
-
-
 
 
         //Formatierungs bzw lese fehler werden nicht gefangen
