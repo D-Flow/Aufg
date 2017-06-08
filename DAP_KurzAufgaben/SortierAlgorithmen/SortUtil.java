@@ -3,6 +3,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+
 /**
  *
  */
@@ -38,6 +39,8 @@ public class SortUtil {
             arr[i] = n-i;
         return arr;
     }
+
+
     public static int[] fillRandom(int n) {
         if (n < 0)
             throw new IllegalArgumentException("n < 0");
@@ -53,6 +56,7 @@ public class SortUtil {
             System.out.print(array[i] + " ");
         System.out.println();
     }
+  
     // Nutz Sortierungsfunktion auf dem array und gibt die Zeit in ms aus
     public static long messureMS(int[] arr, Consumer<int[]> Sortierung){
         long start=System.currentTimeMillis();
