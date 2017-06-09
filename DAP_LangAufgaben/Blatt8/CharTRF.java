@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.List;
 
 //Zeichen Transformation
 public class CharTRF {
@@ -29,7 +29,7 @@ public class CharTRF {
     //Pointer advancement, n heißt das die nächsten n Zeichen übersprugen werden können.
     //Also beim löschen keine, da das nächste das gleiche ist
     // i -> i-1, also list beginnt bei 0
-    public int apply(ArrayList<Character> list) {
+    public int apply(List<Character> list) {
         if (replace)
             if (list.size() >= index) {
                 assert list.get(index - 1) == a;
@@ -52,10 +52,9 @@ public class CharTRF {
 
 
     public String toString() {
-        if (replace) return "Ersetze Zeichen@" + index + " : '" + a + "' -> '" + b + "'";
-        if (delete) return "Lösche Zeichen@" + index + " '" + a + "'";
-        if (add) return "Füge '" + a + "' als Zeichen@" + index + " an";
-        if (keep) return "Übernehme '" + a + "' als Zeichen@" + index;
-        return "FFFF";
+        if (replace) return "Kosten : 1 Ersetze Zeichen@" + index + " : '" + a + "' -> '" + b + "'";
+        if (delete) return "Kosten : 1 Lösche Zeichen@" + index + " '" + a + "'";
+        if (add) return "Kosten : 1 Füge '" + a + "' als Zeichen@" + index + " an";
+        return "Kosten : 0 Übernehme '" + a + "' als Zeichen@" + index;//keep
     }
 }

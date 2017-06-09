@@ -33,7 +33,6 @@ public class EditDistance {
 
     //Addition und Lösch OP werden 'gleichzeitig' betrachtet
     //Nach Add muss die Folgenden Ops auf index+1 zugreifen
-    //Sub analog
     public static LinkedList<CharTRF> applyOffsetChange(LinkedList<CharTRF> l) {
         int offset = 0;
         LinkedList<CharTRF> retl = new LinkedList<>();
@@ -72,18 +71,8 @@ public class EditDistance {
         //Ersetzen... muss passieren da arr wohldef.
         list.addFirst(new CharTRF(i, a.charAt(i - 1), b.charAt(j - 1)));
         return changeList(a, b, arr, i - 1, j - 1, list);
-
     }
 
-    public static void printArray(int[][] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[i].length - 1; j++)
-                System.out.print(arr[i][j] + " ,");
-            if (arr[i].length >= 1)
-                System.out.println(arr[i][arr[i].length - 1]);
-        }
-        System.out.println();
-    }
 
     public static void printEditOperations(String a, String b) {
         int[][] arr = createTable(a, b);
@@ -100,15 +89,8 @@ public class EditDistance {
         System.out.println("0) Endkosten : " + arr[a.length()][b.length()] + " start mit : " + characters + "");
         int nr = 1;
         for (int i = 1; characters.size() > i - 1 || linkedList.size() > 0; nr++) {
-            System.out.print(nr + ") ");
-
-            //if (linkedList.size() > 0 && linkedList.getFirst().index == i) {
-                System.out.print("Kosten : " + 1 + " " + linkedList.getFirst());
-                i += linkedList.removeFirst().apply(characters);
-            /*} else {
-                System.out.print("Kosten : 0 Übernehme Zeichen@" + i + "  '" + characters.get(i - 1) + "'");
-                i++;
-            }*/
+            System.out.print(nr + ") " + linkedList.getFirst());
+            i += linkedList.removeFirst().apply(characters);
             System.out.println(" : " + characters);
         }
         System.out.println();
@@ -122,7 +104,7 @@ public class EditDistance {
     public static void main(String[] args) throws IOException {
         List<Pair> pairList = new LinkedList<>();
         List<String> baseStrings = new LinkedList<>();
-        boolean OFlag = false;
+        boolean OFlag;
         if (args.length == 0) return;
         else OFlag = args[args.length - 1].equals("-o");
         if (args.length == 1 + (OFlag ? 1 : 0))
@@ -152,8 +134,8 @@ public class EditDistance {
         List<Pair> pairList = new LinkedList<>();
         for (String a : base)
             for (String b : base)
-                if (a.equals(b)) continue;
-                else pairList.add(new Pair(a, b));
+                if (!a.equals(b)) pairList.add(new Pair(a, b));
         return pairList;
     }
+
 }
