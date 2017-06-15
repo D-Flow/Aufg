@@ -70,10 +70,12 @@ public class FX_Wrapper extends Application {
         groupMap.put(0, grp);
         stage.getScene().setOnKeyPressed((a) -> {
             try {
-                int n;
+                int n, m;
                 if (a.getCode().isArrowKey()) {
                     n = curren_grp + (a.getCode() == KeyCode.UP ? 1 : 0) + (a.getCode() == KeyCode.DOWN ? -1 : 0);
-                    n = curren_grp + (a.getCode() == KeyCode.RIGHT ? 1 : 0) + (a.getCode() == KeyCode.LEFT ? -1 : 0);
+                    m = curren_grp + (a.getCode() == KeyCode.RIGHT ? 1 : 0) + (a.getCode() == KeyCode.LEFT ? -1 : 0);
+                    if (n == curren_grp)
+                        n = m;
                 } else
                     n = Integer.parseUnsignedInt(a.getText(), 16);
                 if (n == curren_grp || n < 0 || n > 15) return;
@@ -119,7 +121,7 @@ public class FX_Wrapper extends Application {
                     grp = groupMap.get(n);
                 else {
                     grp = new Group();
-                    groupMap.put(n, new Group());
+                    groupMap.put(n, grp);
                 }
                 curren_grp = n;
                 stage.getScene().getRoot().getStyleClass().clear();
@@ -158,7 +160,6 @@ public class FX_Wrapper extends Application {
         });
         l.lock();
         cc.await();
-        groupMap.replace(grpid, grp);
         l.unlock();
         unblockSwitching();
     }
