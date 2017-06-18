@@ -5,20 +5,20 @@ import javafx.scene.text.Text;
 import java.util.ArrayList;
 
 public class FX_Plott {
-    private final int[] x, y;
+    private final long[] x, y;
     private Text base_text = null, name_text = null;
     private String name;
 
-    public FX_Plott(int[] index, int[] raw_values, String plot_name) {
+    public FX_Plott(long[] index, long[] raw_values, String plot_name) {
         x = index;
         y = raw_values;
         name = plot_name;
     }
 
-    public FX_Plott(Integer[] a, Integer[] b, String n) {
+    public FX_Plott(Long[] a, Long[] b, String n) {
         name = n;
-        x = new int[a.length];
-        y = new int[b.length];
+        x = new long[a.length];
+        y = new long[b.length];
         for (int i = 0; i < a.length; i++) {
             x[i] = a[i];
             y[i] = b[i];
@@ -32,29 +32,32 @@ public class FX_Plott {
         for (int i = 0; i < x.length; i++)
             if (y[max] < y[i])
                 max = i;
-        int maxV = y[max];
-        this.name += " Highest Value : " + maxV + " @Index : " + max;
+        long maxV = y[max];
+        this.name += " Highest Value : " + maxV + " @Index : " + x[max];
         double scale_factor = (double) (FX_Wrapper.baseline) / maxV;
         for (int i = 0; i < y.length; i++)
             addBlock(grp, ((double) y[i]) * scale_factor, "" + x[i], y[i]);
     }
 
     private int blx = 0, bly = 0;
-    private static ArrayList<Integer> A = new ArrayList<>(), B = new ArrayList<>();
+    private static ArrayList<Long> A = new ArrayList<>(), B = new ArrayList<>();
 
-    public static void addPoint(int x, int y) {
+    public static void addPoint(long x, long y) {
         A.add(x);
         B.add(y);
     }
 
-    public synchronized static FX_Plott create_FX_Plott(String name) {
-        FX_Plott pl = new FX_Plott(A.toArray(new Integer[0]), B.toArray(new Integer[0]), name);
+    static int n = 0;
+
+    public synchronized static void create_FX_Plott(String name) throws Exception {
+        FX_Plott pl = new FX_Plott(A.toArray(new Long[0]), B.toArray(new Long[0]), name);
         A.clear();
         B.clear();
-        return pl;
+        FX_Wrapper.waitForWrapper().applyGroupTo(pl::add, n);
+        n++;
     }
 
-    private synchronized void addBlock(Group grp, double amt, String name, int unscaled) {
+    private synchronized void addBlock(Group grp, double amt, String name, long unscaled) {
         if (base_text == null) {
             base_text = new Text(0, FX_Wrapper.baseline + 30 + 50, "");
             grp.getChildren().add(base_text);

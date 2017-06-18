@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rucksackproblem {
-    public static void main(String... args) {
+    public static void main(String... args) throws Exception {
         int n = Integer.parseInt(args[0]);
         int G = Integer.parseInt(args[1]);
         int p = Integer.parseInt(args[2]);
@@ -13,7 +13,7 @@ public class Rucksackproblem {
             waren.add(Ware.gen(p));
         }
         waren.sort((wareA, wareB) -> (int) -(wareA.ratio() - wareB.ratio()));
-        System.out.println(waren);
+        //System.out.println(waren);
         System.out.println("Algo Vorl : " + rucksack(G, waren));
 
         int g = 0, sum = 0;
@@ -25,7 +25,27 @@ public class Rucksackproblem {
             }
         }
         System.out.println("Greedy : " + sum);
+        int GSkalar = 500, NSkalar = 500;
+        for (g = 1; g <= 16; g++) {
+            for (n = 1; n <= 30; n++)
+                messureTime(n * NSkalar, g * GSkalar, p);
+            FX_Plott.create_FX_Plott("Algorithmus abhängig in n für G=" + g * GSkalar + " P=" + p);
+        }
+    }
 
+    static int retrys = 6;
+
+    public static void messureTime(int n, int g, int p) {
+        long sum = 0;
+        for (int t = 0; t < retrys; t++) {
+            List<Ware> waren = new ArrayList<>(n);
+            for (int i = 0; i < n; i++)
+                waren.add(Ware.gen(p));
+            long start = System.currentTimeMillis();
+            rucksack(g, waren);
+            sum += System.currentTimeMillis() - start;
+        }
+        FX_Plott.addPoint(n, sum / retrys);
     }
 
     public static class Ware {
