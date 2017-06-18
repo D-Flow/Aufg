@@ -9,16 +9,10 @@ import java.util.function.Function;
 public class FX_Tree {
     private FX_Tree left = null, right = null;
     private Text base_text;
-    private boolean create_T = true;
     int root = 0;
 
     public FX_Tree(int value) {
         root = value;
-    }
-
-    public void link(FX_Tree l, FX_Tree r) {
-        left = l;
-        right = r;
     }
 
     public void setLeft(FX_Tree l) {

@@ -45,8 +45,10 @@ public class Tree {
 
     public static void main(String... args) throws Exception {
         Tree tree = new Tree();
-        for (int i = 0; i < args.length; i++)
+        for (int i = 0; i < args.length; i++) {
             tree.add(Integer.parseInt(args[i]));
+            drawTree(tree);
+        }
         System.out.print("Inorder : ");
         tree.inOrder();
         System.out.print("\nPreorder : ");
@@ -54,12 +56,9 @@ public class Tree {
         System.out.print("\nPostorder : ");
         tree.postOrder();
         System.out.println();
-
-        drawTree(tree);
     }
 
     static int n = 0;
-
     public static void drawTree(Tree t) throws Exception {
         FX_Tree ftree = FX_Tree.createFrom(t);
         if (ftree != null) FX_Wrapper.waitForWrapper().applyGroupTo(ftree::apply_FX, n);
