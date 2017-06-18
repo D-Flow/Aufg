@@ -21,6 +21,7 @@ public class FX_Wrapper extends Application {
     static {
         initApplication();
     }
+
     public static FX_Wrapper waitForWrapper() throws Exception {
         if (wrapper == null) {
             wrplock.lock();
