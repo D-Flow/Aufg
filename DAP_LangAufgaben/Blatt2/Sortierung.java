@@ -27,10 +27,10 @@ public class Sortierung {
         int n;
         String sortType = "merge", fillType = "rand";
 
-        if (args == null || !(args.length == 1 || args.length == 3)) {
+        if (args == null || !(args.length >= 1 && args.length <= 3)) {
             System.out.println("Parameter anzahl inkorrekt!");
             System.out.println("Nutze 'Sortierung n' mit n Natürliche Zahl um ein Zufälliges Array mit Mergesort zu sortieren.");
-            System.out.println("Nutze 'Sorterung n merge|insert rand|auf|ab' für bestimmtes Sortieren.");
+            System.out.println("Nutze 'Sorterung n [merge|insert [rand|auf|ab]]' für bestimmtes Sortieren.");
             return; //ERROR Aufruf hat falsche Form
         }
         try {
@@ -44,7 +44,8 @@ public class Sortierung {
         }
         if (args.length > 1) {  //fülltyp und sortierverfahren aus Parameter entnehmen
             sortType = args[1];
-            fillType = args[2];
+            if (args.length > 2)
+                fillType = args[2];
         }
         // sortType,fillType nun valid
         if (!algMap.containsKey(sortType)) {    //Prüfen ob das sortierverfahren vorhanden ist
@@ -59,7 +60,7 @@ public class Sortierung {
 
         int[] array = fillMap.get(fillType).apply(n);   //füllverfahren auswählen und mit n aufrufen
         long start = System.currentTimeMillis();
-        algMap.get(sortType).accept(array); //Algorithmus aufrufen
+        algMap.get(sortType).accept(array); //Algorithmus aufrufen und array übergeben
         long end = System.currentTimeMillis();
 
         if (!isSorted(array))
@@ -87,7 +88,7 @@ public class Sortierung {
                 array[j + 1] = array[j];    // move array[j] to array[j+1]
                 j--;
             }
-            // array[j]<= key
+            // array[j]<= key und j+1 ist frei
             array[j + 1] = key;
         }
         assert isSorted(array);
